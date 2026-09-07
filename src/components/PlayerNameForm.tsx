@@ -8,12 +8,13 @@ function PlayerNameForm() {
         setName(e.target.value);
     }
 
-    const publishName = (name: string) => {
+    const publishName = (event: any) => {
         sendMessage("/app/setname", name)
+        event.preventDefault();
     }
 
     return (
-        <form onSubmit={() => publishName(name!)}>
+        <form onSubmit={publishName} >
             <input 
             required
             placeholder="Enter your name"

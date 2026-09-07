@@ -11,7 +11,7 @@ const getClient = (): Client => {
     if (client) return client;
 
     client = new Client({
-        webSocketFactory: () => new SockJS("http://localhost:8080/websocket"),
+        webSocketFactory: () => new SockJS("http://localhost:5050/websocket"),
         reconnectDelay: 5000,
         debug: (str) => console.log(str)
     })
@@ -40,7 +40,7 @@ export const subscribe = (onMessage: (msg: any) => void, subscribePath: string) 
 
     if (stompClient.connected) {
         const sub = stompClient.subscribe(subscribePath, (message) => {
-            const parsed: unknown = JSON.parse(message.body)
+            const parsed: any = JSON.parse(message.body);
             onMessage(parsed)
         })
         pendingSubs.get(subscribePath)!.subscription = sub;

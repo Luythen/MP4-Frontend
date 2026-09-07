@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { subscribe, unSubscribe } from "../stomp";
+import type { PlayerInformation } from "../interface/PlayerInformation";
 
 function useLobby () {
-    const [playerNames, setPlayerNames] = useState<string[]>([])
+    const [playerNames, setPlayerNames] = useState<Map<String, PlayerInformation>>(new Map())
     const subscribePath = "/topic/lobby"
 
     useEffect(() => {
-        subscribe((p: string[]) => {
-            setPlayerNames(p)
+        subscribe((p: Record<string, PlayerInformation>) => {
+            setPlayerNames(new Map(Object.entries(p)))
         }, subscribePath)
 
         return () => {
