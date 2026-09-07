@@ -4,6 +4,7 @@ import SockJS from "sockjs-client";
 
 let client: Client | null = null;
 
+// Save all stomp subscriptions and callback
 const pendingSubs = new Map<string, { onMessage: (msg: unknown) => void; subscription: StompSubscription | null }>();
 
 const getClient = (): Client => {
@@ -16,6 +17,8 @@ const getClient = (): Client => {
     })
 
     client.onConnect = () => {
+
+        // Subscribes to paths if user hade made a subscription before the connection hade been made
         pendingSubs.forEach((sub, subPath) => {
             sub.subscription = client!.subscribe(subPath, (message) => {
                 const parsed: any = JSON.parse(message.body)
@@ -29,6 +32,7 @@ const getClient = (): Client => {
     return client;
 }
 
+// Listen for the replays from the server
 export const subscribe = (onMessage: (msg: any) => void, subscribePath: string) => {
     const stompClient = getClient();
 
@@ -41,13 +45,18 @@ export const subscribe = (onMessage: (msg: any) => void, subscribePath: string) 
         })
         pendingSubs.get(subscribePath)!.subscription = sub;
     }
+}
 
-    return () => {
+export const unSubscribe = (subscribePath: string) => {
+    const stompClient = getClient();
+
+    if (stompClient.connected) {
         pendingSubs.get(subscribePath)?.subscription?.unsubscribe();
         pendingSubs.delete(subscribePath)
     }
 }
 
+// Sendmessage to the server
 export const sendMessage = (destination: string, message: any) => {
     const stompClient = getClient()
 
