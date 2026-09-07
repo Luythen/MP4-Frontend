@@ -11,7 +11,7 @@ const getClient = (): Client => {
     if (client) return client;
 
     client = new Client({
-        webSocketFactory: () => new SockJS("http://localhost:5050/websocket"),
+        webSocketFactory: () => new SockJS("http://localhost:8080/websocket"),
         reconnectDelay: 5000,
         debug: (str) => console.log(str)
     })

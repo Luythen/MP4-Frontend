@@ -5,7 +5,6 @@ function Lobby () {
     const { playerNames } = useLobby();
 
     const PlayerList = () => {
-        console.log([...playerNames.keys()])
         return [...playerNames.keys()].map(v => (
             <h1>{ v }</h1>
         ))
