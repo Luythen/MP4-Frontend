@@ -3,10 +3,16 @@ import PlayerNameForm from "./PlayerNameForm";
 
 function Lobby () {
     const { playerNames } = useLobby();
+
+    const PlayerList = () => {
+        return [...playerNames.keys()].map(v => (
+            <h1>{ v }</h1>
+        ))
+    }
     
     return (
         <div>
-            { playerNames }
+            <PlayerList />
             <PlayerNameForm />
         </div>
     )

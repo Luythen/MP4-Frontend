@@ -40,7 +40,7 @@ export const subscribe = (onMessage: (msg: any) => void, subscribePath: string) 
 
     if (stompClient.connected) {
         const sub = stompClient.subscribe(subscribePath, (message) => {
-            const parsed: unknown = JSON.parse(message.body)
+            const parsed: any = JSON.parse(message.body);
             onMessage(parsed)
         })
         pendingSubs.get(subscribePath)!.subscription = sub;
