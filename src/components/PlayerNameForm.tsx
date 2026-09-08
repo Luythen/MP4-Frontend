@@ -8,7 +8,7 @@ function PlayerNameForm() {
         setName(e.target.value);
     }
 
-    const publishName = (event: any) => {
+    const publishName = (event: React.SubmitEvent) => {
         sendMessage("/app/setname", name)
         event.preventDefault();
     }
