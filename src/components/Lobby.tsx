@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/static-components */
 import useLobby from "../hooks/useLobby";
+import useStartGame from "../hooks/useGameOn";
 import useTimer from "../hooks/useTimer";
 import { sendMessage } from "../stomp";
 import PlayerNameForm from "./PlayerNameForm";
@@ -6,6 +8,7 @@ import PlayerNameForm from "./PlayerNameForm";
 function Lobby () {
     const { playerNames } = useLobby();
     const { timer } = useTimer();
+    const { started } = useStartGame();
 
     const PlayerList = () => {
         return [...playerNames.keys()].map(v => (
@@ -13,8 +16,14 @@ function Lobby () {
         ))
     }
 
-    const startTimer = () => {
-        sendMessage("/app/send-time-left", null);
+    const startGame = () => {
+       if (!started) {
+            sendMessage("/app/startgame", null)
+        }
+        else {
+            console.log("NOT ALLOWED");
+            
+        }
     }
     
     return (
@@ -22,7 +31,7 @@ function Lobby () {
             <h1>{timer.toString()}</h1>
             <PlayerList />
             <PlayerNameForm />
-            <button onClick={startTimer}>Start timer</button>
+            <button onClick={startGame}>Start timer</button>
         </div>
     )
 }
