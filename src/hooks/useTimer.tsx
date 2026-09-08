@@ -12,8 +12,6 @@ export default function useTimer () {
 
         return () => {
             unSubscribe(subscribePath);
-            console.log("unsubscribing to timer");
-            
         }
     })
     return { timer };
