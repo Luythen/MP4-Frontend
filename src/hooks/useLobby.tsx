@@ -3,7 +3,7 @@ import { subscribe, unSubscribe } from "../stomp";
 import type { PlayerInformation } from "../interface/PlayerInformation";
 
 function useLobby () {
-    const [playerNames, setPlayerNames] = useState<Map<String, PlayerInformation>>(new Map())
+    const [playerNames, setPlayerNames] = useState<Map<string, PlayerInformation>>(new Map())
     const subscribePath = "/topic/lobby"
 
     useEffect(() => {
@@ -14,7 +14,7 @@ function useLobby () {
         return () => {
             unSubscribe(subscribePath);
         }
-    })
+    }, [])
 
     return { playerNames }
 }
