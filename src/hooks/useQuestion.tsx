@@ -5,7 +5,7 @@ import { subscribe, unSubscribe, sendMessage } from "../stomp";
 
 export default function useQuestion() {
     const [question, setQuestion] = useState<QuestionModel | null>(null);
-    const subscribePath = "/topic/random-question";
+    const subscribePath = "/topic/current-question";
 
     useEffect(() => {
         subscribe ((q: QuestionModel) => {
@@ -18,7 +18,7 @@ export default function useQuestion() {
     }, []);
 
     const getQuestion = () => {
-        sendMessage("/app/get-random-question", {});
+        sendMessage("/app/get-current-question", {});
     }
 
     return { question, getQuestion };
