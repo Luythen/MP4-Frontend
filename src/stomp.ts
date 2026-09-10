@@ -7,11 +7,13 @@ let client: Client | null = null;
 // Save all stomp subscriptions and callback
 const pendingSubs = new Map<string, { onMessage: (msg: unknown) => void; subscription: StompSubscription | null }>();
 
+const socket = import.meta.env.VITE_SOCKET_URL ?? ""
+
 const getClient = (): Client => {
     if (client) return client;
 
     client = new Client({
-        webSocketFactory: () => new SockJS("http://localhost:8080/websocket"),
+        webSocketFactory: () => new SockJS(socket),
         reconnectDelay: 5000,
         debug: (str) => console.log(str)
     })
