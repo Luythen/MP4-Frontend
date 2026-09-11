@@ -21,7 +21,7 @@ export default function Arena ({ options }: QuestionModel) {
     const SIZE = 50;
 
     const MARGIN = 10;
-    const OPTIONS_SIZE = 75;
+    const OPTIONS_SIZE = 100;
 
     const answer_square = [
         { x: MARGIN, y: MARGIN, w: OPTIONS_SIZE, h: OPTIONS_SIZE, answer: options[0] },
@@ -44,7 +44,7 @@ export default function Arena ({ options }: QuestionModel) {
             return answer;
         }
 
-        return null;
+        return "blank";
     }
 
     useEffect(() => {
@@ -69,18 +69,21 @@ export default function Arena ({ options }: QuestionModel) {
         if (ctx != null) {
             ctx.clearRect(0,0, WIDTH, HEIGHT);
 
-            ctx.fillStyle = "yellow"
-            ctx.fillRect(MARGIN, MARGIN, OPTIONS_SIZE, OPTIONS_SIZE)
-            ctx.fillRect(WIDTH-OPTIONS_SIZE-MARGIN, MARGIN, OPTIONS_SIZE, OPTIONS_SIZE)
-            ctx.fillRect(MARGIN, HEIGHT - OPTIONS_SIZE - MARGIN, OPTIONS_SIZE, OPTIONS_SIZE)
-            ctx.fillRect(WIDTH - OPTIONS_SIZE - MARGIN, HEIGHT - OPTIONS_SIZE - MARGIN, OPTIONS_SIZE, OPTIONS_SIZE)
+            answer_square.map((sq) => {
+                ctx.fillStyle = "yellow"
+                ctx.fillRect(sq.x, sq.y, sq.w, sq.h)
+
+                ctx.fillStyle = "Black"
+                ctx.font = "16px sans-serif"
+                ctx.textAlign = "center"
+                ctx.textBaseline = "middle";
+                ctx.fillText(sq.answer, sq.x + OPTIONS_SIZE / 2, sq.y + OPTIONS_SIZE / 2)
+            })
 
             players.forEach((info, _p) => {
                 answer_square.map((r) => {
                     const answer = rectsOverlap(info.posX, info.posY, SIZE, SIZE, r.x, r.y, r.w, r.h, r.answer)
-                    if (answer != null) {
-                        setAnswer(answer);
-                    }
+                    sendAnswer(answer);
                 })
                 ctx.beginPath();
                 ctx.fillStyle = info.color;
@@ -88,6 +91,12 @@ export default function Arena ({ options }: QuestionModel) {
                 ctx.rect(info.posX, info.posY, SIZE, SIZE);
                 ctx.fill();
                 ctx.stroke();
+
+                ctx.fillStyle = "Black"
+                ctx.font = "12px sans-serif"
+                ctx.textAlign = "center"
+                ctx.textBaseline = "middle";
+                ctx.fillText(_p, info.posX + SIZE / 2, info.posY + SIZE / 2)
             })
         }
     }, [players])
@@ -113,6 +122,20 @@ export default function Arena ({ options }: QuestionModel) {
     }, [started])
 
     return (
-        <canvas id="arena" ref={canvasRef} width={WIDTH} height={HEIGHT}></canvas>
+        <div style={{display: "flex"}}>
+            <canvas id="arena" ref={canvasRef} width={WIDTH} height={HEIGHT}></canvas>
+            <table>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+                { [...players.keys()].map((p) => (
+                    <tr>
+                        <td>{ p }</td>
+                        <td>{ players.get(p)?.score }</td>
+                    </tr>
+                )) }
+            </table>
+        </div>
     )
 }
