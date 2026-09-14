@@ -32,19 +32,12 @@ export default function Arena ({ options }: QuestionModel) {
 
     function rectsOverlap (
         x1: number, y1: number, w1: number, h1: number,
-        x2: number, y2: number, w2: number, h2: number,
-        answer: string
+        x2: number, y2: number, w2: number, h2: number
     ) {
-        if (
-            x2 < x1 + w1 &&
+        return x2 < x1 + w1 &&
             x2 + w2 > x1 &&
             y2 < y1 + h1 &&
             y2 + h2 > y1
-        ) {
-            return answer;
-        }
-
-        return "blank";
     }
 
     useEffect(() => {
@@ -81,10 +74,9 @@ export default function Arena ({ options }: QuestionModel) {
             })
 
             players.forEach((info, _p) => {
-                answer_square.map((r) => {
-                    const answer = rectsOverlap(info.posX, info.posY, SIZE, SIZE, r.x, r.y, r.w, r.h, r.answer)
-                    sendAnswer(answer);
-                })
+                const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE, SIZE, sq.x, sq.y, sq.w, sq.h))
+                sendAnswer(p_answer.length > 0 ? p_answer[0].answer : "blank");
+                
                 ctx.beginPath();
                 ctx.fillStyle = info.color;
                 ctx.strokeStyle = "black";

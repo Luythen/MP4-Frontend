@@ -15,7 +15,6 @@ const getClient = (): Client => {
     client = new Client({
         webSocketFactory: () => new SockJS(socket),
         reconnectDelay: 5000,
-        debug: (str) => console.log(str)
     })
 
     client.onConnect = () => {

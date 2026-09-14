@@ -8,7 +8,6 @@ export default function usePlayerMove () {
 
     useEffect(() => {
         subscribe((p: PlayerInformation) => {
-            console.log(p)
             setPlayers(new Map(Object.entries(p)))
         }, path)
         return () => {
