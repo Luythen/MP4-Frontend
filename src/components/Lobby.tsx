@@ -35,9 +35,9 @@ function Lobby () {
     
     return (
         <div>
-            <div>
-                <h1>{timer.toString()}</h1>
-                { [...playerNames.keys()].length === 3 ? <h1>{question === null ? "waiting for question" : question.question}</h1> : <p></p> }
+            <div id="aboveCanvas">
+                { [...playerNames.keys()].length === 3 ? <p id="question">{question === null ? "waiting for question" : question.question}</p> : <p></p> }
+                <p id="timer">TIME: {timer.toString()}</p>
             </div>
             { [...playerNames.keys()].length === 3 ? <Arena options={question === null ? [] : question.options} id={""} question={""} category={""} correctAnswer={""} /> : <div>
                 <PlayerList />

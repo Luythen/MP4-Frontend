@@ -1,4 +1,54 @@
-table, th, td {
-    border: 1px solid black;
-    height: 5rem;
+table,
+th,
+td {
+  border: 1px solid black;
+  height: 5rem;
+  margin-left: 3rem;
+}
+
+#arena {
+  border: 2px solid #333;
+  border-radius: 18px;
+  box-shadow: 12px 16px 18px rgba(0, 0, 0, 0.3);
+}
+
+#aboveCanvas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1000px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+#nameForm {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    justify-content: left;
+    padding: .2rem;
+}
+
+#nameForm input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+
+#nameForm button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+#nameForm button:hover {
+    background: #555;
+}
+
+#nameForm button:active {
+    transform: scale(1.65);
 }
