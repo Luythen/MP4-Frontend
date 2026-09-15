@@ -1,75 +1,56 @@
-# React + TypeScript + Vite
+# MP4 Quiz Game Frontend
+See also: [Backend of this project](https://github.com/Luythen/MP4-Backend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About the project
+This is the frontend part of the game. This client uses SockJS and stomp to contiously manage player position and display
+timer, question, alternatives and score.
 
-Currently, two official plugins are available:
+This is a quiz game, where players are presented with a question and 4 options for an answer. There is only 1 correct answer. 
+Players must first enter their name/alias. When 3 players have done so, the game will start. 
+After the game starts, players must move their icon to the correct answer using the keyboard arrows. Score will be distributed as follows:
+- The player who answer correctly first will receive 2 points.
+- Players who answer correctly but not first will receive 1 point.
+- Players who answer incorrectly will lose 1 point.
+- Players who do not place their icon on any answer will lose 2 points.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project was made for a school assignment. It's purpose is to practice implementations of websocket and estimating project time consumption/scope.
 
-## React Compiler
+## How to run
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-  To run the project, run ```git clone git@github.com:Luythen/MP4-Frontend.git```
+Create a .env file in the root. There is a .env.example file to show the variables you need to set.
+To start the client: 
+from the root of the folder, run:
+```npm run dev```
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Feature                        | Incomplete | Implemented |
+| ------------------------------ | :--------: | :---------: |
+| Players choose their names     |            |      x      |
+| Gamestart when players join    |            |      x      |
+| Synced timer                   |            |      x      |
+| Synced questions               |            |      x      |
+| Randomised questions           |            |      x      |
+| Correct answer gives score     |            |      x      |
+| Wrong answer withdraw score    |            |      x      |
+| Scorekeeping on scoreboard     |            |      x      |
+| Score visible after game end   |            |      x      |
+| Edit/add questions with json   |            |      x      |
+| Players can choose color       |     x      |             |
+| Restart game with same players |     x      |             |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Technologies used
+* React
+* Stomp
+* SockJS
+* Websocket
+* Digital Ocean
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+## Known bugs
+* Game might break after first game
+* Player names are quite unrestricted, can look visually strange.
+* Players can't move the first few seconds and can move for a short time after timer ends.
+* Score is buggy at this point
