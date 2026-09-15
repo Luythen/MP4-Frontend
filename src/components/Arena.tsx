@@ -74,8 +74,10 @@ export default function Arena ({ options }: QuestionModel) {
             })
 
             players.forEach((info, _p) => {
-                const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE, SIZE, sq.x, sq.y, sq.w, sq.h))
-                sendAnswer(p_answer.length > 0 ? p_answer[0].answer : "blank");
+                if (localStorage.getItem("name") != null) {
+                    const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE, SIZE, sq.x, sq.y, sq.w, sq.h))
+                    sendAnswer(p_answer.length > 0 ? p_answer[0].answer : "blank");
+                }
                 
                 ctx.beginPath();
                 ctx.fillStyle = info.color;
