@@ -74,7 +74,6 @@ export default function Arena ({ options }: QuestionModel) {
             players.forEach((info, _p) => {
                 if (localStorage.getItem("name") != null && localStorage.getItem("name") === _p) {
                     const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE, SIZE, sq.x, sq.y, sq.w, sq.h))
-                    console.log(p_answer.length > 0 ? p_answer[0].answer : "blank")
                     sendAnswer(p_answer.length > 0 ? p_answer[0].answer : "blank");
                 }
                 
