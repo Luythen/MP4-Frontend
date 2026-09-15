@@ -40,10 +40,8 @@ export default function Arena ({ options }: QuestionModel) {
 
     useEffect(() => {
         const move = (event: KeyboardEvent) => {
-            if (started) {
-                if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
-                    sendMessage("/app/move", event.key)
-                }
+            if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                sendMessage("/app/move", event.key)
             }
         }
 
