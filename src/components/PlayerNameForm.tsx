@@ -10,6 +10,7 @@ function PlayerNameForm() {
 
     const publishName = (event: React.SubmitEvent) => {
         sendMessage("/app/setname", name)
+        localStorage.setItem("name", name != null ? name : "");
         event.preventDefault();
     }
 
