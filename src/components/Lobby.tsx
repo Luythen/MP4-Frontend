@@ -27,7 +27,7 @@ function Lobby () {
             {[...scoreBoard.keys()].map(s => (
                 <tr>
                     <td>{s}</td>
-                    <td>{scoreBoard.get(s).score}</td>
+                    <td>{scoreBoard.get(s)?.score}</td>
                 </tr>
             ))}
         </table>
