@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { sendMessage } from "../stomp";
 import usePlayerMove from "../hooks/usePlayerMove";
 import useGameOn from "../hooks/useGameOn";
@@ -12,8 +12,6 @@ export default function Arena ({ options }: QuestionModel) {
     const { getQuestion  } = useQuestion();
     const { sendAnswer } = useScore();
     const canvasRef = useRef(null)
-
-    const [answer, setAnswer] = useState<string | null>(null) 
 
     const WIDTH = 1000;
     const HEIGHT = 700;
@@ -74,8 +72,9 @@ export default function Arena ({ options }: QuestionModel) {
             })
 
             players.forEach((info, _p) => {
-                if (localStorage.getItem("name") != null) {
+                if (localStorage.getItem("name") != null && localStorage.getItem("name") === _p) {
                     const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE, SIZE, sq.x, sq.y, sq.w, sq.h))
+                    console.log(p_answer.length > 0 ? p_answer[0].answer : "blank")
                     sendAnswer(p_answer.length > 0 ? p_answer[0].answer : "blank");
                 }
                 
@@ -99,10 +98,6 @@ export default function Arena ({ options }: QuestionModel) {
         const startGame = () => {
             if (!started) {
                 sendMessage("/app/startgame", null)
-                if (answer != null) {
-                    sendAnswer(answer);
-                    setAnswer(null);
-                }
             }
             else {
                 console.log("NOT ALLOWED");    
