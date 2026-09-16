@@ -57,3 +57,4 @@ npm run dev
 
 ## Known bugs
 * Player names are quite unrestricted, can look visually strange.
+* If a player reloads the page while playing and adds several names, the game will never start.

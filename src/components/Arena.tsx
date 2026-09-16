@@ -16,16 +16,18 @@ export default function Arena ({ options }: QuestionModel) {
     const WIDTH = 1000;
     const HEIGHT = 700;
 
-    const SIZE = 50;
+    const SIZE_W = 100;
+    const SIZE_H = 50;
 
     const MARGIN = 10;
-    const OPTIONS_SIZE = 100;
+    const OPTIONS_SIZE_W = 350;
+    const OPTIONS_SIZE_H = 150;
 
     const answer_square = [
-        { x: MARGIN, y: MARGIN, w: OPTIONS_SIZE, h: OPTIONS_SIZE, answer: options[0] },
-        { x: WIDTH-OPTIONS_SIZE-MARGIN, y: MARGIN, w: OPTIONS_SIZE, h: OPTIONS_SIZE, answer: options[1] },
-        { x: MARGIN, y: HEIGHT - OPTIONS_SIZE - MARGIN, w: OPTIONS_SIZE, h: OPTIONS_SIZE, answer: options[2] },
-        { x: WIDTH-OPTIONS_SIZE-MARGIN, y: HEIGHT - OPTIONS_SIZE - MARGIN, w: OPTIONS_SIZE, h: OPTIONS_SIZE, answer: options[3] },
+        { x: MARGIN, y: MARGIN, w: OPTIONS_SIZE_W, h: OPTIONS_SIZE_H, answer: options[0] },
+        { x: WIDTH-OPTIONS_SIZE_W-MARGIN, y: MARGIN, w: OPTIONS_SIZE_W, h: OPTIONS_SIZE_H, answer: options[1] },
+        { x: MARGIN, y: HEIGHT - OPTIONS_SIZE_H - MARGIN, w: OPTIONS_SIZE_W, h: OPTIONS_SIZE_H, answer: options[2] },
+        { x: WIDTH-OPTIONS_SIZE_W-MARGIN, y: HEIGHT - OPTIONS_SIZE_H - MARGIN, w: OPTIONS_SIZE_W, h: OPTIONS_SIZE_H, answer: options[3] },
     ]
 
     function rectsOverlap (
@@ -58,27 +60,31 @@ export default function Arena ({ options }: QuestionModel) {
         if (ctx != null) {
             ctx.clearRect(0,0, WIDTH, HEIGHT);
 
+            const BORDER_MARGIN = 8;
             answer_square.map((sq) => {
+                ctx.strokeStyle = "yellow";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(sq.x + BORDER_MARGIN, sq.y + BORDER_MARGIN, sq.w - BORDER_MARGIN * 2, sq.h - BORDER_MARGIN * 2)
+                /* Version 1 style
                 ctx.fillStyle = "yellow"
                 ctx.fillRect(sq.x, sq.y, sq.w, sq.h)
-
+ */
                 ctx.fillStyle = "Black"
-                ctx.font = "16px sans-serif"
+                ctx.font = "20px sans-serif"
                 ctx.textAlign = "center"
                 ctx.textBaseline = "middle";
-                ctx.fillText(sq.answer, sq.x + OPTIONS_SIZE / 2, sq.y + OPTIONS_SIZE / 2)
+                ctx.fillText(sq.answer, sq.x + OPTIONS_SIZE_W / 2, sq.y + OPTIONS_SIZE_H / 2)
             })
 
             players.forEach((info, _p) => {
                 if (localStorage.getItem("name") != null && localStorage.getItem("name") === _p) {
-                    const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE, SIZE, sq.x, sq.y, sq.w, sq.h))
+                    const p_answer = answer_square.filter((sq) => rectsOverlap(info.posX, info.posY, SIZE_W, SIZE_H, sq.x, sq.y, sq.w, sq.h))
                     sendAnswer(p_answer.length > 0 ? p_answer[0].answer : "blank");
                 }
-                
                 ctx.beginPath();
                 ctx.fillStyle = info.color;
                 ctx.strokeStyle = "black";
-                ctx.rect(info.posX, info.posY, SIZE, SIZE);
+                ctx.rect(info.posX, info.posY, SIZE_W, SIZE_H);
                 ctx.fill();
                 ctx.stroke();
 
@@ -86,7 +92,7 @@ export default function Arena ({ options }: QuestionModel) {
                 ctx.font = "12px sans-serif"
                 ctx.textAlign = "center"
                 ctx.textBaseline = "middle";
-                ctx.fillText(_p, info.posX + SIZE / 2, info.posY + SIZE / 2)
+                ctx.fillText(_p, info.posX + SIZE_W / 2, info.posY + SIZE_H / 2)
             })
         }
     }, [players])

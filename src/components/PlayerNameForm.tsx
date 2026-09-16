@@ -15,7 +15,7 @@ function PlayerNameForm() {
     }
 
     return (
-        <form onSubmit={publishName} >
+        <form id="nameForm" onSubmit={publishName} >
             <input 
             required
             placeholder="Enter your name"
