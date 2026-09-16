@@ -56,7 +56,5 @@ npm run dev
 * DigitalOcean
 
 ## Known bugs
-* Game might break after first game
 * Player names are quite unrestricted, can look visually strange.
-* Players can't move the first few seconds and can move for a short time after timer ends.
-* Score is buggy at this point
+* If a player reloads the page while playing and adds several names, the game will never start.
